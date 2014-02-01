@@ -29,6 +29,12 @@ remove()
     ( . ./"$PKGNAME".rm.sh && echo -e "\033[1;32m\"$PKGNAME\" was successfully removed.\033[22;0m" ) || ( echo -e "\033[1;31mNo usable automatic removal instructions are available for \"$PKGNAME\"." && echo -e "You may have to manually uninstall it.\033[22;0m" && exit 1 )
 }
 
+clean()
+{
+    rm -rf Recipes/*
+    echo -e "\033[1;32mCleaned out the local recipe box.\033[22;0m"
+}
+
 STEWDIR=$(pwd)
 if [ "$1" == 'set' ]
 then
