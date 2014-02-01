@@ -16,7 +16,7 @@ install()
     export STEWDIR
     chmod +x ./"$PKGNAME".sh > /dev/null 2>&1
     . ./"$PKGNAME".sh || ( echo -e "\033[1;34m--> Unable to install \"$PKGNAME\"\033[22;0m" && exit 1 )
-    echo -e "\033[1;32mFinished processing package: \"$PKGNAME\". Please review the terminal output for errors.\033[22;0m]
+    echo -e "\033[1;32mFinished processing package: \"$PKGNAME\". Please review the terminal output for errors.\033[22;0m]"
     exit 0
 }
 
