@@ -11,7 +11,7 @@ update()
 install()
 {
     cd Recipes
-    curl -LkOs http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m--> \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit )
+    curl -Oks http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m--> \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit )
     export PKGNAME
     export STEWDIR
     chmod +x ./"$PKGNAME".sh
