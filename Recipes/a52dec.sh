@@ -1,10 +1,3 @@
-if [ -a /usr/local/bin/a52dec ]
-then
-    rm /usr/local/bin/a52dec
-    rm /usr/local/bin/extract_a52
-    exit 0
-fi
-
 [ -d "$PKGNAME" ] && rm -rf "$PKGNAME"
 mkdir "$PKGNAME"
 cd "$PKGNAME"
