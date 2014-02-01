@@ -1,3 +1,9 @@
+if [ "$1" == "remove" ]
+then
+    rm /usr/local/bin/a52dec && rm /usr/local/bin/extract_a52 && return 0
+    exit 1
+fi
+
 [ -d "$PKGNAME" ] && rm -rf "$PKGNAME"
 mkdir "$PKGNAME"
 cd "$PKGNAME"

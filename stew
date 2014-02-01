@@ -11,17 +11,20 @@ update()
 install()
 {
     cd Recipes
-    curl -Oks http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m--> \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit )
+    curl -Oks http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m--> \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 )
     export PKGNAME
     export STEWDIR
     chmod +x ./"$PKGNAME".sh
-    . ./"$PKGNAME".sh || ( echo -e "\033[1;34m-->Unable to install \"$PKGNAME\"\033[22;0m" && exit 1 )
+    . ./"$PKGNAME".sh || ( echo -e "\033[1;34m--> Unable to install \"$PKGNAME\"\033[22;0m" && exit 1 )
     exit 0
 }
 
 remove()
 {
-    echo "Hello world!"
+    rm -rf "$STEWDIR"/Bowls/"$PKGNAME" && ( cd Recipes && ( curl -Oks http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m-->  \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 ) ) && chmod +x ./"$PKGNAME".sh && './"$PKGNAME".sh remove' && echo -e "\033[1;32m--> \"$PKGNAME\" was successfully removed.\033[22;0m" && exit 0 )
+    echo -e "\033[1;31m--> \"$PKGNAME\" is not installed on your system or no installation instructions exist for it."
+    echo -e "You may have to manually uninstall it.\033[22;0m"
+    exit 1
 }
 
 STEWDIR=$(pwd)
@@ -37,6 +40,7 @@ then
     install || exit 1
 elif [ "$1" == "remove" ]
 then
+    PKGNAME="$2"
     remove
 else
     echo "stew v0.0.1 for Mac OS X"
