@@ -1,0 +1,46 @@
+set()
+{
+    echo "Hello world!"
+}
+
+update()
+{
+    echo "Hello world!"
+}
+
+install()
+{
+    if [ "$(curl -s -o /dev/null -w "%{http_code}" http://www.raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh)" != "200" ]
+    then
+        echo -e "\033[1;31m--> No package named \"$PKGNAME\" available through stew\033[22;0m" && exit 1
+    else
+        curl -LkOs http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || return 1
+        export PKGNAME
+        export STEWDIR
+        . ./"$PKGNAME".sh || echo -e "\033[1;34m-->Unable to install \"$PKGNAME\"\033[22;0m"
+    exit 1
+    fi
+}
+
+remove()
+{
+    echo "Hello world!"
+}
+
+STEWDIR=$(pwd)
+if [ "$1" == 'set' ]
+then
+    set
+elif [ "$1" == 'update' ]
+then
+    update
+elif [ "$1" == 'install' ]
+then
+    PKGNAME="$2"
+    install || ( echo -e "\033[1;31mThe package \"$PKGNAME\" could not be installed.\033[22;0m" && echo -e "\033[1;31mWe would appreciate it if you submitted an issue report on our GitHub repo.\033[22;0m" && exit 1)
+elif [ "$1" == "remove" ]
+then
+    remove
+else
+    echo "stew v0.0.1 for Mac OS X"
+fi
