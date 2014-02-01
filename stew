@@ -22,13 +22,11 @@ install()
 
 remove()
 {
-    rm -rf "$STEWDIR"/Bowls/"$PKGNAME" || echo -e "\033[1;31m\"$PKGNAME\" is not installed on your system or cannot be found.\033[22;0m"
+    rm -rf "$STEWDIR"/Bowls/"$PKGNAME"/ || echo -e "\033[1;31m\"$PKGNAME\" is not installed on your system or cannot be found.\033[22;0m"
     cd Recipes
     curl -Oks http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m-->  \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 )
     chmod +x ./"$PKGNAME".sh
-    . './"$PKGNAME".sh remove' || ( echo -e "\033[1;31mNo usable automatic removal instructions are available for \"$PKGNAME\"." && echo -e "You may have to manually uninstall it.\033[22;0m" && exit 0 )
-    echo -e "\033[1;32m--> \"$PKGNAME\" was successfully removed.\033[22;0m"
-    exit 0
+    ( . './"$PKGNAME".sh remove' && echo -e "\033[1;32m\"$PKGNAME\" was successfully removed.\033[22;0m" ) || ( echo -e "\033[1;31mNo usable automatic removal instructions are available for \"$PKGNAME\"." && echo -e "You may have to manually uninstall it.\033[22;0m" && exit 1 )
 }
 
 STEWDIR=$(pwd)
