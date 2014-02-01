@@ -50,6 +50,9 @@ elif [ "$1" == "remove" ]
 then
     PKGNAME="$2"
     remove
+elif [ "$1" == "clean" ]
+then
+    clean
 else
     echo "stew v0.0.1 for Mac OS X"
 fi
