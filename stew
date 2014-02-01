@@ -11,12 +11,12 @@ update()
 install()
 {
     cd Recipes
-    curl -Oks http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m--> \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 )
+    curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m--> \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 )
     export PKGNAME
     export STEWDIR
     chmod +x ./"$PKGNAME".sh > /dev/null 2>&1
-    . ./"$PKGNAME".sh || ( echo -e "\033[1;34m--> Unable to install \"$PKGNAME\"\033[22;0m" && exit 1 )
-    echo -e "\033[1;32mFinished processing package: \"$PKGNAME\". Please review the terminal output for errors.\033[22;0m]"
+    . "$PKGNAME".sh || ( echo -e "\033[1;34m--> Unable to install \"$PKGNAME\"\033[22;0m" && exit 1 )
+    echo -e "\033[1;32mFinished processing package: \"$PKGNAME\". Please review the terminal output for errors.\033[22;0m"
     exit 0
 }
 
@@ -24,7 +24,7 @@ remove()
 {
     rm -rf "$STEWDIR"/Bowls/"$PKGNAME"/ || echo -e "\033[1;31m\"$PKGNAME\" is not installed on your system or cannot be found.\033[22;0m"
     cd Recipes
-    curl -Oks http://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh || ( echo -e "\033[1;31m-->  \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 )
+    curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh || ( echo -e "\033[1;31m-->  \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 )
     chmod +x ./"$PKGNAME".sh
     ( . ./"$PKGNAME".rm.sh && echo -e "\033[1;32m\"$PKGNAME\" was successfully removed.\033[22;0m" ) || ( echo -e "\033[1;31mNo usable automatic removal instructions are available for \"$PKGNAME\"." && echo -e "You may have to manually uninstall it.\033[22;0m" && exit 1 )
 }
@@ -35,7 +35,14 @@ clean()
     echo -e "\033[1;32mCleaned out the local recipe box.\033[22;0m"
 }
 
-STEWDIR=$(pwd)
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+STEWDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+cd "$STEWDIR"
 if [ "$1" == 'set' ]
 then
     set
