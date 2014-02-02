@@ -1,4 +1,4 @@
-[ -a "/usr/local/bin/adnssheloex" ] && echo -e "\033[1;34m--> Package already configured, upgrading instead of installing\033[22;0m" && rm /usr/local/bin/adnssheloex
+[ -a "/usr/local/bin/adnsheloex" ] && echo -e "\033[1;34m--> Package already configured, upgrading instead of installing\033[22;0m" && rm /usr/local/bin/adnsheloex
 [ -a "/usr/local/bin/adnshost" ] && rm /usr/local/bin/adnshost
 [ -a "/usr/local/bin/adnslogres" ] && rm /usr/local/bin/adnslogres
 [ -a "/usr/local/bin/adnsresfilter" ] && rm /usr/local/bin/adnsresfilter
