@@ -16,7 +16,7 @@ install()
     export STEWDIR
     chmod +x ./"$PKGNAME".sh > /dev/null 2>&1
     . "$PKGNAME".sh
-    if ( "$?" -eq 0 )
+    if [ "$?" -eq 0 ]
     then
         echo -e "\033[1;32m--> Finished processing package: \"$PKGNAME\".\033[22;0m"
         exit 0
