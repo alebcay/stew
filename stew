@@ -18,10 +18,10 @@ install()
     . "$PKGNAME".sh
     if [ "$?" -eq 0 ]
     then
-        echo -e "\033[1;32m--> Finished processing package: \"$PKGNAME\".\033[22;0m"
+        echo -e "\033[1;32mFinished processing package: \"$PKGNAME\".\033[22;0m"
         exit 0
     else
-        echo -e "\033[1;31m--> An error occured while processing \"$PKGNAME\".\033[22;0m"
+        echo -e "\033[1;31mAn error occured while processing \"$PKGNAME\".\033[22;0m"
         exit 1
     fi
 }
