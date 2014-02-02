@@ -5,7 +5,6 @@
 [ -a "/usr/local/bin/acpinames" ] && rm /usr/local/bin/acpinames
 [ -a "/usr/local/bin/acpisrc" ] && rm /usr/local/bin/acpisrc
 [ -a "/usr/local/bin/acpixtract" ] && rm /usr/local/bin/acpixtract
-[ -a "/usr/local/bin/acpiiasl" ] && rm /usr/local/bin/acpiiasl
 [ -d "$PKGNAME" ] || mkdir "$PKGNAME"
 cd "$PKGNAME"
 echo -e "\033[1;34m--> Downloading source package: https://acpica.org/sites/acpica/files/acpica-unix2-20130823.tar.gz\033[22;0m"
@@ -24,4 +23,3 @@ ln -s "$STEWDIR"/Bowls/acpica/bin/acpihelp /usr/local/bin/acpihelp >/dev/null 2>
 ln -s "$STEWDIR"/Bowls/acpica/bin/acpinames /usr/local/bin/acpinames >/dev/null 2>&1
 ln -s "$STEWDIR"/Bowls/acpica/bin/acpisrc /usr/local/bin/acpisrc >/dev/null 2>&1
 ln -s "$STEWDIR"/Bowls/acpica/bin/acpixtract /usr/local/bin/acpixtract >/dev/null 2>&1
-ln -s "$STEWDIR"/Bowls/acpica/bin/iasl /usr/local/bin/iasl >/dev/null 2>&1
