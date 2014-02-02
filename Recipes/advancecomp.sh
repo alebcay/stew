@@ -2,6 +2,11 @@
 [ -a "/usr/local/bin/advmng" ] && rm /usr/local/bin/advmng
 [ -a "/usr/local/bin/advpng" ] && rm /usr/local/bin/advpng
 [ -a "/usr/local/bin/advzip" ] && rm /usr/local/bin/advzip
+[ -a "/usr/local/share/man/man1/advdef.1" ] && rm /usr/local/share/man/man1/advdef.1
+[ -a "/usr/local/share/man/man1/advmng.1" ] && rm /usr/local/share/man/man1/advmng.1
+[ -a "/usr/local/share/man/man1/advpng.1" ] && rm /usr/local/share/man/man1/advpng.1
+[ -a "/usr/local/share/man/man1/advzip.1" ] && rm /usr/local/share/man/man1/advzip.1
+
 [ -d "$PKGNAME" ] || mkdir "$PKGNAME"
 cd "$PKGNAME"
 echo -e "\033[1;34m--> Downloading source package: http://downloads.sourceforge.net/advancemame/advancecomp-1.18.tar.gz\033[22;0m"
@@ -17,3 +22,7 @@ ln -s "$STEWDIR"/Bowls/advancecomp/bin/advdef /usr/local/bin/advdef >/dev/null 2
 ln -s "$STEWDIR"/Bowls/advancecomp/bin/advmng /usr/local/bin/advmng >/dev/null 2>&1
 ln -s "$STEWDIR"/Bowls/advancecomp/bin/advpng /usr/local/bin/advpng >/dev/null 2>&1
 ln -s "$STEWDIR"/Bowls/advancecomp/bin/advzip /usr/local/bin/advzip >/dev/null 2>&1
+ln -s "$STEWDIR"/Bowls/advancecomp/share/man/man1/advdef.1 /usr/local/share/man/man1/advdef.1 >/dev/null 2>&1
+ln -s "$STEWDIR"/Bowls/advancecomp/share/man/man1/advmng.1 /usr/local/share/man/man1/advmng.1 >/dev/null 2>&1
+ln -s "$STEWDIR"/Bowls/advancecomp/share/man/man1/advpng.1 /usr/local/share/man/man1/advpng.1 >/dev/null 2>&1
+ln -s "$STEWDIR"/Bowls/advancecomp/share/man/man1/advzip.1 /usr/local/share/man/man1/advzip.1 >/dev/null 2>&1

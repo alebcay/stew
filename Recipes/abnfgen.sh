@@ -1,4 +1,5 @@
 [ -a "/usr/local/bin/abnfgen" ] && echo -e "\033[1;34m--> Package already configured, upgrading instead of installing\033[22;0m" && rm /usr/local/bin/abnfgen
+[ -a "/usr/local/share/man/man1/abnfgen.1" ] && rm /usr/local/share/man/man1/abnfgen.1
 [ -d "$PKGNAME" ] || mkdir "$PKGNAME"
 cd "$PKGNAME"
 echo -e "\033[1;34m--> Downloading source package: http://www.quut.com/abnfgen/abnfgen-0.16.tar.gz\033[22;0m"
@@ -11,3 +12,4 @@ echo -e "\033[1;34m--> Building $PKGNAME\033[22;0m"
 ./configure --disable-debug --disable-dependency-tracking --prefix="$STEWDIR"/Bowls/abnfgen >/dev/null 2>&1
 make -j $CORES install >/dev/null 2>&1
 ln -s "$STEWDIR"/Bowls/abnfgen/bin/abnfgen /usr/local/bin/abnfgen >/dev/null 2>&1
+ln -s "$STEWDIR"/Bowls/abnfgen/man/man1/abnfgen.1 /usr/local/share/man/man1/abnfgen.1 >/dev/null 2>&1
