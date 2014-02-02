@@ -48,7 +48,8 @@ clean()
 
 list()
 {
-    curl -ks https://raw.github.com/alebcay/stew/master/RecipeList > cat
+    curl -Oks https://raw.github.com/alebcay/stew/master/RecipeList
+    cat RecipeList
 }
 
 SOURCE="${BASH_SOURCE[0]}"
