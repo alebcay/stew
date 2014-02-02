@@ -4,4 +4,4 @@ rm /usr/local/bin/acpihelp
 rm /usr/local/bin/acpinames
 rm /usr/local/bin/acpisrc
 rm /usr/local/bin/acpixtract
-rm /usr/local/bin/acpiiasl
+rm /usr/local/bin/iasl
