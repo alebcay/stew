@@ -46,6 +46,11 @@ clean()
     echo -e "\033[1;32mCleaned out the local recipe box.\033[22;0m"
 }
 
+list()
+{
+    curl -ks https://raw.github.com/alebcay/stew/master/RecipeList > cat
+}
+
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -65,6 +70,9 @@ then
 elif [ "$1" == "clean" ]
 then
     clean
+elif [ "$1" == "list" ]
+then
+    list
 else
     echo "stew v0.0.1 for Mac OS X"
 fi
