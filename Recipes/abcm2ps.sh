@@ -10,4 +10,4 @@ CORES=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || sysctl -n hw.ncpu)
 echo -e "\033[1;34m--> Building $PKGNAME\033[22;0m"
 ./configure --disable-debug --disable-dependency-tracking --prefix="$STEWDIR"/Bowls/abcm2ps --enable-shared >/dev/null 2>&1
 make -j $CORES install >/dev/null 2>&1
-ln -s "$STEWDIR"/Bowls/abcm2ps/bin/aacgain /usr/local/bin/abcm2ps >/dev/null 2>&1
+ln -s "$STEWDIR"/Bowls/abcm2ps/bin/abcm2ps /usr/local/bin/abcm2ps >/dev/null 2>&1
