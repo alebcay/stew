@@ -5,7 +5,7 @@ stew is (another) package manager made for the Mac OS X platform. The name is a 
 
 ### Features
 
-- Written in bash from top to bottom. Extensible and customizable
+- Written in shell script from top to bottom. Extensible and customizable
 
 (more features are on the way, see section "Planned Features" for details)
 
