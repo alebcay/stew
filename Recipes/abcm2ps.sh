@@ -4,7 +4,7 @@ cd "$PKGNAME"
 echo -e "\033[1;34m--> Downloading source package: http://moinejf.free.fr/abcm2ps-6.6.22.tar.gz\033[22;0m"
 curl -LkOs http://moinejf.free.fr/abcm2ps-6.6.22.tar.gz
 echo -e "\033[1;34m--> Opening package\033[22;0m"
-tar xzvf abcm2ps-6.6.22.tar.gz >/dev/null 2>&1
+tar xzvf abcm2ps-6.6.22 >/dev/null 2>&1
 cd abcm2ps-6.6.22
 CORES=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || sysctl -n hw.ncpu)
 echo -e "\033[1;34m--> Building $PKGNAME\033[22;0m"
