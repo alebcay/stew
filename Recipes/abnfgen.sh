@@ -5,7 +5,7 @@ echo -e "\033[1;34m--> Downloading source package: http://www.quut.com/abnfgen/a
 curl -LkOs http://www.quut.com/abnfgen/abnfgen-0.16.tar.gz
 echo -e "\033[1;34m--> Opening package\033[22;0m"
 tar xzvf abnfgen-0.16.tar.gz >/dev/null 2>&1
-cd abnfgen-0.16.tar.gz
+cd abnfgen-0.16
 CORES=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || sysctl -n hw.ncpu)
 echo -e "\033[1;34m--> Building $PKGNAME\033[22;0m"
 ./configure --disable-debug --disable-dependency-tracking --prefix="$STEWDIR"/Bowls/abnfgen >/dev/null 2>&1
