@@ -10,18 +10,49 @@ update()
 
 install()
 {
-    cd Recipes
-    curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh || ( echo -e "\033[1;31m--> Instructions for \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 )
-    export PKGNAME
-    export STEWDIR
-    chmod +x ./"$PKGNAME".sh > /dev/null 2>&1
-    . "$PKGNAME".sh
-    if [ "$?" -eq 0 ]
+    while read url || [[ -n $url ]]
+    do
+        customURLresponse=$(curl --write-out %{http_code} --silent --output /dev/null "$url"/"$PKGNAME".sh)
+        if [ "$customURLresponse" == "200" ]
+        then
+            echo -e "\033[1;34m--> Found matching recipe at $url\033[22;0m"
+            cd Recipes
+            curl -Oks "$url"/"$PKGNAME".sh
+            export PKGNAME
+            export STEWDIR
+            chmod +x ./"$PKGNAME".sh > /dev/null 2>&1
+            . "$PKGNAME".sh
+            if [ "$?" -eq 0 ]
+            then
+                echo -e "\033[1;32mFinished processing package: \"$PKGNAME\".\033[22;0m"
+                exit 0
+            else
+                echo -e "\033[1;31mRecipe at $url was damaged, searching for other matching recipes\033[22;0m"
+            fi
+        else
+            echo -e "\033[1;33m--> No matching recipe in $url\033[22;0m"
+        fi
+    done < ./StoveList
+    echo -e "\033[1;34m--> No matching recipes found in external stovetop, searching central stovetop\033[22;0m"
+    response=$(curl --write-out %{http_code} --silent --output /dev/null https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh)
+    if [ "$response" == "200" ]
     then
+        cd Recipes
+        curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh
+        export PKGNAME
+        export STEWDIR
+        chmod +x ./"$PKGNAME".sh > /dev/null 2>&1
+        . "$PKGNAME".sh
+        if [ "$?" -eq 0 ]
+        then
         echo -e "\033[1;32mFinished processing package: \"$PKGNAME\".\033[22;0m"
         exit 0
+        else
+            echo -e "\033[1;31mAn error occured while processing \"$PKGNAME\".\033[22;0m"
+            exit 1
+        fi
     else
-        echo -e "\033[1;31mAn error occured while processing \"$PKGNAME\".\033[22;0m"
+        echo -e "\033[1;31mThe package \"$PKGNAME\" could not be found.\033[22;0m"
         exit 1
     fi
 }
@@ -30,10 +61,47 @@ remove()
 {
     if [ -d "$STEWDIR"/Bowls/"$PKGNAME" ]
     then
-        rm -rf "$STEWDIR"/Bowls/"$PKGNAME"/
+        while read url || [[ -n $url ]]
+        do
+            customURLresponse=$(curl --write-out %{http_code} --silent --output /dev/null "$url"/"$PKGNAME".rm.sh)
+            if [ "$customURLresponse" == "200" ]
+            then
+                echo -e "\033[1;34m--> Found matching recipe at $url\033[22;0m"
+                cd Recipes
+                curl -Oks "$url"/"$PKGNAME".rm.sh
+                export PKGNAME
+                export STEWDIR
+                chmod +x ./"$PKGNAME".rm.sh > /dev/null 2>&1
+                . "$PKGNAME".rm.sh
+                rm -rf "$STEWDIR"/Bowls/"$PKGNAME"/
+                if [ "$?" -eq 0 ]
+                then
+                    echo -e "\033[1;32m\"$PKGNAME\" has been successfully removed.\033[22;0m"
+                    exit 0
+                else
+                    echo -e "\033[1;31mInvalid removal instructions at $url, searching for other matching recipes\033[22;0m"
+                fi
+            else
+                echo -e "\033[1;33m--> No matching recipe in $url\033[22;0m"
+            fi
+        done < ./StoveList
         cd Recipes
-        curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh || ( echo -e "\033[1;31m-->  Instructions for \"$PKGNAME\" is unusable or nonexistent\033[22;0m" && exit 1 )
-        ( . ./"$PKGNAME".rm.sh && echo -e "\033[1;32m\"$PKGNAME\" was successfully removed.\033[22;0m" ) || ( echo -e "\033[1;31mNo usable automatic removal instructions are available for \"$PKGNAME\"." && echo -e "You may have to manually uninstall it.\033[22;0m" && exit 1 )
+        response=$(curl --write-out %{http_code} --silent --output /dev/null https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh)
+        if [ "$response" == "200" ]
+        then
+            curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh
+            . ./"$PKGNAME".rm.sh
+            if [ "$?" -eq 0 ]
+            then
+                echo -e "\033[1;32m\"$PKGNAME\" has been successfully removed.\033[22;0m"
+                exit 0
+            else
+                echo -e "\033[1;31mInvalid removal instructions. No sources left to check.\033[22;0m"
+            fi
+        else
+            echo -e "\033[1;31mNo removal instructions are available for this package.\033[22;0m"
+        fi
+        rm -rf "$STEWDIR"/Bowls/"$PKGNAME"/
     else
         echo -e "\033[1;31m\"$PKGNAME\" is not installed on your system or cannot be found.\033[22;0m"
         exit 1
@@ -50,6 +118,52 @@ list()
 {
     curl -Oks https://raw.github.com/alebcay/stew/master/RecipeList
     cat RecipeList
+}
+
+add-stove()
+{
+    if grep -Fxq "$STOVEURL" ./StoveList
+    then
+        echo -e "\033[1;31m$STOVEURL is already on the list of accepted stovetops.\033[22;0m"
+        exit 0
+    else
+        echo "$STOVEURL" >> ./StoveList
+        echo -e "\033[1;32mAdded $STOVEURL to list of accepted stovetops.\033[22;0m"
+        exit 1
+    fi
+}
+
+remove-stove()
+{
+    if [ -s "./StoveList" ]
+    then
+        if grep -Fxq "$STOVEURL" ./StoveList
+        then
+            echo "sed '/$STOVEURL/d' ./StoveList > ./NewStoveList" | sh
+            rm -rf ./StoveList
+            mv ./NewStoveList ./StoveList
+            echo -e "\033[1;32mRemoved $STOVEURL from the list of accepted stovetops. \033[22;0m"
+            exit 0
+        else
+            echo -e "\033[1;31m$STOVEURL is not a configured stovetop on this system.\033[22;0m"
+            exit 1
+        fi
+    else
+        echo -e "\033[1;31mNo external stovetops are configured on this system.\033[22;0m"
+        exit 1
+    fi
+}
+
+list-stove()
+{
+    if [ -s "./StoveList" ]
+    then
+        cat StoveList
+        exit 0
+    else
+        echo -e "\033[1;31mNo external stovetops are configured on this system.\033[22;0m"
+        exit 1
+    fi
 }
 
 SOURCE="${BASH_SOURCE[0]}"
@@ -74,6 +188,17 @@ then
 elif [ "$1" == "list" ]
 then
     list
+elif [ "$1" == "add-stove" ]
+then
+    STOVEURL="$2"
+    add-stove
+elif [ "$1" == "remove-stove" ]
+then
+    STOVEURL="$2"
+    remove-stove
+elif [ "$1" == "list-stove" ]
+then
+    list-stove
 else
     echo "stew v0.0.1 for Mac OS X"
 fi
