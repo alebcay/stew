@@ -13,11 +13,9 @@ stew is (another) package manager made for the Mac OS X platform. The name is a 
 
 ### Installation
 
-You can clone this Git repository, but you only need to acquire the file named "stew" that is located in the root of this directory. **In fact, I strongly warn against cloning this Git repository, because you then get a handful of the installation scripts, which could get annoying.** Once you have this file stew, place it anywhere you want, and ensure that it is executable. All packages installed through stew will be in the same directory as it, so be sure to put it somewhere convenient. After that, if you desire, simply add a symlink to stew into your path, so that your life becomes easier. Once your optional symlink is set up, simply run
-<pre>
-stew install [packageName]
-</pre>
-to install packages. (Type `stew list` for a list of packages on the official repository) *DO NOT* move or rename the stew directory (the directory stew is placed in), or any of the subdirectories created by stew (Recipes and Bowls), as this will disrupt symlinks to the programs.
+1. Download stew. It all resides in one file, so who needs archives? Get it at https://raw.github.com/alebcay/stew/master/stew
+2. Move stew to a desired directory. All packages installed through stew will be stored also in this directory, so take that into account when choosing a good spot. **After you make your decision, you cannot rename or otherwise change the path to stew or any of it's created subdirectories without installation and removal of packages breaking. If you must move stew, uninstall all of your packages first, then install re-install them after moving.**
+3. View a list of available packages with `stew list`. Install any of them with `stew install [packageName]`.
 
 ### Usage
 
