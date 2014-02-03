@@ -15,9 +15,9 @@ stew is (another) package manager made for the Mac OS X platform. The name is a 
 
 You can clone this Git repository, but you only need to acquire the file named "stew" that is located in the root of this directory. **In fact, I strongly warn against cloning this Git repository, because you then get a handful of the installation scripts, which could get annoying.** Once you have this file stew, place it anywhere you want, and ensure that it is executable. All packages installed through stew will be in the same directory as it, so be sure to put it somewhere convenient. After that, if you desire, simply add a symlink to stew into your path, so that your life becomes easier. Once your optional symlink is set up, simply run
 <pre>
-stew install <package>
+stew install [packageName]
 </pre>
-to install packages. *DO NOT* move or rename the stew directory (the directory stew is placed in), or any of the subdirectories created by stew (Recipes and Bowls), as this will disrupt symlinks to the programs.
+to install packages. (Type `stew list` for a list of packages on the official repository) *DO NOT* move or rename the stew directory (the directory stew is placed in), or any of the subdirectories created by stew (Recipes and Bowls), as this will disrupt symlinks to the programs.
 
 ### Usage
 
@@ -39,9 +39,9 @@ stew list-stove
 Stovetops are listed in the order in which they were added. This is also the order in which they are checked during installation. We strongly recommend that if you add an install script for a package in your repository, that you also add a removal script. It is also encouraged that you keep your scripts' output clean and similar to that of the scripts in this official repository to ensure regularity.
 Finally, to remove a stovetop, run
 <pre>
-stew remove-stove <URLThatYouWantToRemove>
+stew remove-stove [URLThatYouWantToRemove]
 </pre>
-where <URLThatYouWantToRemove> is the exact URL you entered earlier. If you can't quite remember, just run `stew list-stove`.
+where URLThatYouWantToRemove is the exact URL you entered earlier. If you can't quite remember, just run `stew list-stove`.
 
 ### Planned Features
 
