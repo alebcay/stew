@@ -1,1 +1,0 @@
-rm /usr/local/bin/abcm2ps
