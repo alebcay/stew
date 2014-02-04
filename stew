@@ -6,6 +6,7 @@ install()
         if [ "$customURLresponse" == "200" ]
         then
             echo -e "\033[1;34m--> Found matching recipe at $url\033[22;0m"
+            echo -e "\033[1;33mWARNING: Only install software from sources you trust!\033[22;0m"
             if ! ( grep -Fxq "$PKGNAME" ./InstalledList )
             then
                 echo "$PKGNAME" >> ./InstalledList
@@ -70,9 +71,9 @@ remove()
                 then
                     if grep -Fxq "$PKGNAME" ./InstalledList
                     then
-                        echo "sed '/$STOVEURL/d' ./InstalledList > ./NewInstalledList" | sh
+                        echo "sed '/$PKGNAME/d' ./InstalledList > ./NewInstalledList" | sh
                         rm -rf ./InstalledList
-                        mv ./NewInstalledList ./InstalledListList
+                        mv ./NewInstalledList ./InstalledList
                     fi
                 fi
                 cd Recipes
@@ -101,9 +102,9 @@ remove()
             then
                 if grep -Fxq "$PKGNAME" ./InstalledList
                 then
-                    echo "sed '/$STOVEURL/d' ./InstalledList > ./NewInstalledList" | sh
+                    echo "sed '/$PKGNAME/d' ./InstalledList > ./NewInstalledList" | sh
                     rm -rf ./InstalledList
-                    mv ./NewInstalledList ./InstalledListList
+                    mv ./NewInstalledList ./InstalledList
                 fi
             fi
             cd Recipes
