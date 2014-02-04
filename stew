@@ -27,34 +27,8 @@ install()
         else
             echo -e "\033[1;33m--> No matching recipe in $url\033[22;0m"
         fi
-    done < ./StoveList
-    echo -e "\033[1;34m--> No matching recipes found in external stovetop, searching central stovetop\033[22;0m"
-    response=$(curl --write-out %{http_code} --silent --output /dev/null https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh)
-    if [ "$response" == "200" ]
-    then
-        [ -a ./InstalledList ] || touch ./InstalledList
-        if ! ( grep -Fxq "$PKGNAME" ./InstalledList )
-        then
-            echo "$PKGNAME" >> ./InstalledList
-        fi
-        cd Recipes
-        curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh
-        export PKGNAME
-        export STEWDIR
-        chmod +x ./"$PKGNAME".sh > /dev/null 2>&1
-        . "$PKGNAME".sh
-        if [ "$?" -eq 0 ]
-        then
-            echo -e "\033[1;32mFinished processing package: \"$PKGNAME\".\033[22;0m"
-            exit 0
-        else
-            echo -e "\033[1;31mAn error occured while processing \"$PKGNAME\".\033[22;0m"
-            exit 1
-        fi
-    else
-        echo -e "\033[1;31mThe package \"$PKGNAME\" could not be found.\033[22;0m"
-        exit 1
-    fi
+        done < ./StoveList
+    echo -e "\033[1;34m--> No matching recipes found in external stovetops!\033[22;0m"
 }
 
 remove()
@@ -94,32 +68,7 @@ remove()
                 echo -e "\033[1;33m--> No matching recipe in $url\033[22;0m"
             fi
         done < ./StoveList
-        echo -e "\033[1;34m--> No matching recipes found in external stovetop, searching central stovetop\033[22;0m"
-        response=$(curl --write-out %{http_code} --silent --output /dev/null https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh)
-        if [ "$response" == "200" ]
-        then
-            if [ -s "./InstalledList" ]
-            then
-                if grep -Fxq "$PKGNAME" ./InstalledList
-                then
-                    echo "sed '/$PKGNAME/d' ./InstalledList > ./NewInstalledList" | sh
-                    rm -rf ./InstalledList
-                    mv ./NewInstalledList ./InstalledList
-                fi
-            fi
-            cd Recipes
-            curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh
-            . ./"$PKGNAME".rm.sh
-            if [ "$?" -eq 0 ]
-            then
-                echo -e "\033[1;32m\"$PKGNAME\" has been successfully removed.\033[22;0m"
-            else
-                echo -e "\033[1;31mInvalid removal instructions. No sources left to check.\033[22;0m"
-            fi
-        else
-            echo -e "\033[1;31mNo removal instructions are available for this package.\033[22;0m"
-        fi
-        rm -rf "$STEWDIR"/Bowls/"$PKGNAME"/
+        echo -e "\033[1;34m--> No matching recipes found in stovetops!\033[22;0m"
     else
         echo -e "\033[1;31m\"$PKGNAME\" is not installed on your system or cannot be found.\033[22;0m"
         exit 1
@@ -145,8 +94,20 @@ list()
             exit 1
         fi
     else
-        curl -Oks https://raw.github.com/alebcay/stew/master/RecipeList
-        cat RecipeList
+        while read url || [[ -n $url ]]
+        do
+        customURLresponse=$(curl --write-out %{http_code} --silent --output /dev/null "$url"/RecipeList)
+        if [ "$customURLresponse" == "200" ]
+        then
+            echo "$url:"
+            curl -Oks "$url"/RecipeList
+            cat RecipeList
+            echo ""
+        else
+            echo "No recipe list for $url"
+            echo ""
+        fi
+        done < ./StoveList
     fi
 }
 
