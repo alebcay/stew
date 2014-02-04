@@ -29,7 +29,7 @@ install()
         fi
     done < ./StoveList
     echo -e "\033[1;34m--> No matching recipes found in external stovetop, searching central stovetop\033[22;0m"
-    response=$(curl --write-out %{http_code} --silent --output /dev/null https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh)
+    response=$(curl --write-out %{http_code} --silent --output /dev/null https://raw.github.com/alebcay/stew/old/Recipes/"$PKGNAME".sh)
     if [ "$response" == "200" ]
     then
         [ -a ./InstalledList ] || touch ./InstalledList
@@ -38,7 +38,7 @@ install()
             echo "$PKGNAME" >> ./InstalledList
         fi
         cd Recipes
-        curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".sh
+        curl -Oks https://raw.github.com/alebcay/stew/old/Recipes/"$PKGNAME".sh
         export PKGNAME
         export STEWDIR
         chmod +x ./"$PKGNAME".sh > /dev/null 2>&1
@@ -95,7 +95,7 @@ remove()
             fi
         done < ./StoveList
         echo -e "\033[1;34m--> No matching recipes found in external stovetop, searching central stovetop\033[22;0m"
-        response=$(curl --write-out %{http_code} --silent --output /dev/null https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh)
+        response=$(curl --write-out %{http_code} --silent --output /dev/null https://raw.github.com/alebcay/stew/old/Recipes/"$PKGNAME".rm.sh)
         if [ "$response" == "200" ]
         then
             if [ -s "./InstalledList" ]
@@ -108,7 +108,7 @@ remove()
                 fi
             fi
             cd Recipes
-            curl -Oks https://raw.github.com/alebcay/stew/master/Recipes/"$PKGNAME".rm.sh
+            curl -Oks https://raw.github.com/alebcay/stew/old/Recipes/"$PKGNAME".rm.sh
             . ./"$PKGNAME".rm.sh
             if [ "$?" -eq 0 ]
             then
@@ -145,7 +145,7 @@ list()
             exit 1
         fi
     else
-        curl -Oks https://raw.github.com/alebcay/stew/master/RecipeList
+        curl -Oks https://raw.github.com/alebcay/stew/old/RecipeList
         cat RecipeList
     fi
 }
