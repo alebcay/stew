@@ -15,6 +15,7 @@ stew is an the easiest way to deploy packages and run executable code across pla
 - **Deploy from anywhere!** All you need is an HTTP, FTP, or other text transfer protocol server supported by curl.
 - **Flexible!** If you can configure it in your command line, stew can do it too. And if you can't do it in your command line, don't be afraid to invoke other platforms too.
 - **You're in control!** Simply give your end users a URL and a package name and they're off. Need to push a bug fix? Just update your website or FTP server.
+- **No bureaucracy!** Unlike `brew`, `ports`, or `apt-get` (which all served as inspiration for this project, and I'd like to give them a shout-out and a thank you), there's no specific guide to what you can and cannot do. There's also no line to wait in to get your package out there. Just write your script, upload it, and go!
 
 ### Features for enterprise management
 
